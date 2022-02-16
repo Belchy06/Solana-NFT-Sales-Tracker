@@ -9,9 +9,6 @@ if (!process.env.PROJECT_ADDRESS || !process.env.SALE_URL || !process.env.LISTIN
     return;
 }
 
-// project 76tYGiLCdK3WLSj7u8dGEfTz6bxqWhPzSJZ5LDTsnxMM
-// Discord https://discord.com/api/webhooks/938352806656618556/3GB8JiQmNbC7S9NI82JZVdaXqiMjKsThVAJ7GQqmVSt2EeoybwRg-3M4sJjBTds4HOjt
-
 const projectPubKey = new solanaWeb3.PublicKey(process.env.PROJECT_ADDRESS);
 const url = solanaWeb3.clusterApiUrl('mainnet-beta');
 const solanaConnection = new solanaWeb3.Connection(url, 'confirmed');
@@ -104,30 +101,6 @@ const logSale = (date, price, signature, title, marketplace, imageURL) => {
 }
 
 const postToDiscord = (title, price, date, imageURL, marketplace, metadata, bIsSale, tokenAddress, signature) => {
-    // let obj = {};
-    // obj["title"] = `"${title}" ${(bIsSale ? "SOLD" : "LISTED")} for ${price}◎ on ${marketplace}`
-    // if(!bIsSale) {
-    //     let listingURL = getListingURL(marketplace, tokenAddress)
-    //     obj["description"] = (listingURL ? `[View on ${marketplace}](${listingURL})` : ``)
-    // }
-    // obj["author"] = {
-    //     name: 'LilSparagus',
-	// 	icon_url: 'https://cdn.discordapp.com/avatars/217961554790842368/5af461faf85212cb917287f3acf089fd.webp?size=128'
-    // }
-    // obj["fields"] = [];
-    // metadata.attributes.forEach(attribute => {
-    //     let temp = {};
-    //     temp["name"] = attribute["trait_type"]
-    //     temp["value"] = attribute["value"]
-    //     temp["inline"] = true;
-    //     obj["fields"].push(temp);
-    // });
-    // obj["image"] = { "url": `${imageURL}` }
-    // obj["footer"] = {
-    //     "text": `${(bIsSale ? "Sold" : "Listed")} at ${date}`
-    // }
-    // axios.post((bIsSale ? process.env.SALE_URL : process.env.LISTING_URL), { "embeds": [ obj ]})
-
     // An undefind price means the item was delisted
     if(price === undefined) return;
 
@@ -209,7 +182,7 @@ const parsePriceMagicEden = async tokenAddress => {
     }
 }
 
-const runSalesBot = async () => {
+const main = async () => {
     console.log("Starting sales tracker...");
     let signatures;
     let lastKnownSignature;
@@ -282,4 +255,5 @@ const runSalesBot = async () => {
         }
     }
 }
-runSalesBot();
+
+main();
